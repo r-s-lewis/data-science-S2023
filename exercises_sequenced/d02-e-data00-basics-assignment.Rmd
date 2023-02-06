@@ -52,6 +52,7 @@ Some nomenclature:
 *Hint*: You can run `?diamonds` to get information on a built-in dataset.
 
 ```{r load-packages, eval=FALSE}
+head(diamonds)
 ```
 
 ### __q2__ Run `glimpse(diamonds)`; what variables does `diamonds` have?

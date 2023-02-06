@@ -23,12 +23,14 @@ function's use.
 
 ```{r rnorm-help, eval=FALSE}
 ## Your code here
+?rnorm
 ```
 
 ### __q2__ How do you show the source code for a function?
 
 ```{r rnorm-source}
 ## Your code here
+rnorm
 ```
 
 ### __q3__ Using either the documentation or the source, determine the arguments for `rnorm`.
