@@ -202,7 +202,7 @@ in the dataset.
 ## TODO: Adjust the data, assign to df_q2
 df_q2 <- 
   df_michelson %>% 
-    mutate(VelocityVacuum = df_michelson$Velocity + 92)
+  mutate(VelocityVacuum = Velocity + 92)
 df_q2
 ```
 
@@ -334,9 +334,10 @@ df_q2 %>%
 
 ![](c02-michelson-assignment_files/figure-gfm/q4-cf-real-simulated-1.png)<!-- -->
 
-**Observations**: Similarities - All the local maximums and minimums
-line along the x-axis Differences - The simulated data tends to have
-higher velocities than the real data.
+**Observations**: Similarities - All of the valleys and peaks in the
+graphs line up on the x axis. In other words, the slopes are positive
+and negative at the same time - The simulated data tends to have higher
+velocities than the real data.
 
 ### **q5** You have access to a few other variables. Construct a few visualizations of `VelocityVacuum` against these other factors. Are there other patterns in the data that might help explain the difference between Michelson’s estimate and `LIGHTSPEED_VACUUM`?
 
