@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category    | Needs Improvement                                                                                                | Satisfactory                                                                                                               |
-|------------------|-----------------------------|-------------------------|
+|-------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | Effort      | Some task **q**'s left unattempted                                                                               | All task **q**'s attempted                                                                                                 |
 | Observed    | Did not document observations, or observations incorrect                                                         | Documented correct observations based on analysis                                                                          |
 | Supported   | Some observations not clearly supported by analysis                                                              | All observations clearly supported by analysis (table, graph, etc.)                                                        |
@@ -136,7 +136,7 @@ unique(df_stang_long$thick)
     -   Angles 0, 45 and 90 were tested.
 -   What thicknesses were tested?
     -   Thicknesses 0.022, 0.032, 0.064, and 0.081 were tested.
--   How does nu relate to thickness? In other words, is E an intensive property?
+-   How does E relate to nu. and is their
 
 ## Visualize
 
@@ -147,16 +147,16 @@ unique(df_stang_long$thick)
 ```{r q3-task}
 ## TASK: Investigate your question from q1 here
 df_stang_long %>% 
-  ggplot(aes(nu, thick)) +
+  ggplot(aes(E, nu)) +
   geom_line() +
   geom_smooth(method = "lm", alpha = .15)
 
-summary(lm(nu~thick, df_stang_long))$r.squared
+summary(lm(E~nu, df_stang_long))$r.squared
 ```
 
 **Observations**:
 
--   At first, there appears to be a relatively steep trend line. However, on closer inspection, the data seems to sporadic to be correlated. Getting an r\^2 value of 0.2030935 gives us a final verdict that there is no correlation of statistical merit.
+-   At first, there appears to be a relatively steep trend line. However, on closer inspection, the data seems to sporadic to be correlated. Getting an r\^2 value of 0.4458462 gives us a final verdict that there is no correlation of statistical merit.
 
 ### **q4** Consider the following statement:
 
