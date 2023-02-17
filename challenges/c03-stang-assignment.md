@@ -268,9 +268,13 @@ unique(df_stang_long$thick)
 **Observations**:
 
 - Is there “one true value” for the material properties of Aluminum?
-  - There are two values in the table to describe the material
-    properties of Aluminum. These are E (elasticity) and nu (Poisson’s
-    ratio).
+  - There is not one true value for the dataset. Material properties
+    like these are often assumed to be intensive, but our results seem
+    to say otherwise. Youngs Modulus, for instance, depends on
+    inter-molecular bonds, so it does vary slightly with thickness.
+    Additionally, the way they measured the data is a little
+    questionable. They changed their testing method for a few of the
+    samples. When you omit these data points, the variance decreases.
 - How many aluminum alloys are in this dataset? How do you know?
   - There is one. There is only one type in the alloy column.
 - What angles were tested?
@@ -289,7 +293,7 @@ unique(df_stang_long$thick)
 ``` r
 ## TASK: Investigate your question from q1 here
 df_stang_long %>% 
-  ggplot(aes(nu, thick)) +
+  ggplot(aes(thick, nu)) +
   geom_line() +
   geom_smooth(method = "lm", alpha = .15)
 ```
@@ -307,9 +311,8 @@ summary(lm(nu~thick, df_stang_long))$r.squared
 **Observations**:
 
 - At first, there appears to be a relatively steep trend line. However,
-  on closer inspection, the data seems to sporadic to be correlated.
-  Getting an r^2 value of 0.2030935 gives us a final verdict that there
-  is no correlation of statistical merit.
+  on closer inspection, the data seems to sporadic to be correlated. The
+  low r^2 indicates a very weak association between \`thick\` and \`nu’.
 
 ### **q4** Consider the following statement:
 
