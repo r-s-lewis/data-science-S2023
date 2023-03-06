@@ -139,17 +139,14 @@ head(df_g)
 
 ``` r
 ## TASK: Find the largest and smallest values of `year` in `gapminder`
-year_max <- 
-  df_g %>% 
-    summarize(max(year))
+year_max <-
+  df_g %>%
+  summarize(year = max(year)) %>%
+  pull(year) 
 year_min <- 
-  df_g %>% 
-    summarize(min(year))
-year_max = as.integer(year_max)
-year_min = as.integer(year_min)
-# Last time you got mad because I used the dollar sign so I did it both ways.
-#year_max <- max(gapminder$year)
-#year_min <- min(gapminder$year)
+  df_g %>%
+  summarize(year = min(year)) %>% 
+  pull(year) 
 ```
 
 Use the following test to check your work.
@@ -209,7 +206,7 @@ df_g %>%
 
 **Observations**:
 
-- Oceania has a small range because there are so few countries
+- Oceania has a small range.
 - There is a big outlier in Asia, Kuwait.
 - Africa has the lowest average gdpPercap
 - Maybe less of an observation and just a thought but this plot makes me
@@ -227,9 +224,9 @@ df_g %>%
 #Take an average of all the years
 df_g_countries <-
   df_g %>% 
-    group_by(country) %>%
-    mutate(gdpPercap = mean(gdpPercap)) %>%
-    filter(!duplicated(country))
+  group_by(country) %>%
+  mutate(gdpPercap = mean(gdpPercap)) %>%
+  filter(!duplicated(country))
 #First method is to just take the values from the plot
 df_g_countries$country[which(df_g_countries$gdpPercap %in% boxplot(df_g_countries$gdpPercap,plot=FALSE)$out)]
 ```
@@ -277,7 +274,6 @@ label:
 ## NOTE: No need to edit, use ideas from this in q4 below
 gapminder %>%
   filter(year == max(year)) %>%
-
   ggplot(aes(continent, lifeExp)) +
   geom_boxplot() +
   geom_point(
@@ -304,11 +300,10 @@ gapminder %>%
     data = . %>% 
       group_by(year) %>%
       filter(
-          gdpPercap < quantile(gdpPercap, 0.01) | 
-          gdpPercap > quantile(gdpPercap, 0.99)
+        gdpPercap < quantile(gdpPercap, 0.01) | 
+        gdpPercap > quantile(gdpPercap, 0.99)
       ),
-    mapping = aes(color = country)
-  ) +
+    mapping = aes(color = country)) +
   scale_y_log10() +
   facet_wrap(~year)
 ```
