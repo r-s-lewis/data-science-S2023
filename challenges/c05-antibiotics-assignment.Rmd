@@ -42,7 +42,7 @@ define how you will be graded, both on an individual and team basis.
 <!-- ------------------------- -->
 
 | Category    | Needs Improvement                                                                                                | Satisfactory                                                                                                               |
-|------------------|--------------------------|-----------------------------|
+|------------------|--------------------------|----------------------------|
 | Effort      | Some task **q**'s left unattempted                                                                               | All task **q**'s attempted                                                                                                 |
 | Observed    | Did not document observations, or observations incorrect                                                         | Documented correct observations based on analysis                                                                          |
 | Supported   | Some observations not clearly supported by analysis                                                              | All observations clearly supported by analysis (table, graph, etc.)                                                        |
@@ -62,6 +62,7 @@ all files uploaded to GitHub.**
 ```{r setup}
 library(tidyverse)
 library(ggrepel)
+library(ggdark)
 ```
 
 *Background*: The data[1] we study in this challenge report the
@@ -126,8 +127,9 @@ df_antibiotics %>%
   scale_colour_gradient(trans="log10") +
   geom_point(aes(shape = gram), alpha = 0.75, size = 3) +
   scale_y_log10() +
-  geom_label_repel(aes(label = bacteria, fill = neomycin), color = "white", size = 2.75, box.padding = 0.25, point.padding = 1, segment.color = 'grey50') +
-  scale_fill_gradient(trans="log10")
+  geom_label_repel(aes(label = bacteria, fill = neomycin), color = "black", size = 2.75, box.padding = 0.25, point.padding = 1, segment.color = 'grey50') +
+  scale_fill_gradient(trans="log10") +
+  dark_theme_minimal()
 ```
 
 #### Visual 2 (All variables)
@@ -153,7 +155,8 @@ df_antibiotics_l %>%
   ggplot(aes(x = bacteria, color = name)) +
   geom_point(aes(y = mic, shape = gram), alpha = 0.85, size = 2.5) +
   scale_y_log10() +
-  coord_flip()
+  coord_flip() +
+  dark_theme_minimal()
 ```
 
 #### Visual 3 (Some variables)
@@ -172,7 +175,8 @@ df_antibiotics %>%
   geom_bar(aes(fill = gram), stat = "identity", width = .75) +
   geom_hline(yintercept = 0.1) +
   scale_y_log10() +
-  coord_flip()
+  coord_flip() +
+  dark_theme_minimal()
 ```
 
 #### Visual 4 (Some variables)
@@ -187,10 +191,12 @@ your other visuals.
 ```{r q1.4}
 # WRITE YOUR CODE HERE
 df_antibiotics_l %>% 
-  filter(grepl("Streptococcus|Diplococcus", bacteria)) %>% 
+  mutate(q2_category = ifelse((grepl("Streptococcus|Diplococcus", bacteria)), TRUE, FALSE)) %>% 
   ggplot(aes(x = bacteria, y = mic)) +
-  geom_bar(aes(fill = gram), stat = "identity", width = .75) +
-  theme(axis.text.x = element_text(angle=90, vjust=0.65)) +
+  geom_bar(aes(fill = gram, linetype = q2_category), stat = "identity", width = .75, size = 0.6, color = "magenta") +
+  dark_theme_minimal() +
+  theme(axis.text.x = element_text(angle=0, vjust=0.65)) +
+  theme(axis.text.y = element_text(size = 4.5)) +
   geom_hline(yintercept = 0.1) +
   coord_flip() +
   facet_wrap(~name, ncol = 1) +
@@ -217,7 +223,8 @@ df_antibiotics_l %>%
   geom_tile() +
   geom_tile(data = df_antibiotics_l, aes(colour = factor(effective, c(TRUE, FALSE)), size = factor(effective, c(TRUE, FALSE))), alpha = 0) + 
   scale_colour_manual("effective", values = c("orange2", "white")) + 
-  scale_size_manual("effective", values = c(.5, 0))
+  scale_size_manual("effective", values = c(.5, 0)) +
+  dark_theme_minimal()
 ```
 
 ### **q2** Assess your visuals
@@ -248,7 +255,12 @@ effective, which means its super easy to see. All of the bacteria are
 along the y axis and the mic values are along the x axis. You can scan
 horizontally very quickly to see which antibiotics are effective on a
 certain bacteria, and you can scan vertically to see which bacteria the
-antibiotics are effective on.
+antibiotics are effective on. In terms of gram strain, penicillin and
+streptomycin are only effective on gram positive bacteria. Neomycin,
+however, can be effective on some gram negative bacteria. This is best
+shown in visual 4. This visual compares each of the three antibiotics in
+different facets all above each other. It includes a helpful line at 0.1
+to see if the antibiotic is effective or not.
 
 #### Guiding Question 2
 
