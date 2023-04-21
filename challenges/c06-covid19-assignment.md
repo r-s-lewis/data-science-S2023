@@ -93,7 +93,7 @@ library(tidyverse)
 
     ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
     ## ✔ ggplot2 3.4.0     ✔ purrr   1.0.1
-    ## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+    ## ✔ tibble  3.2.1     ✔ dplyr   1.1.0
     ## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
     ## ✔ readr   2.1.3     ✔ forcats 1.0.0
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -285,15 +285,15 @@ head(df_q3)
 ```
 
     ## # A tibble: 6 × 5
-    ##   id             `Geographic Area Name`  `Estimate!!Total` Margin of Err…¹ fips 
-    ##   <chr>          <chr>                               <dbl>           <dbl> <chr>
-    ## 1 0500000US01001 Autauga County, Alabama             55200              NA 01001
-    ## 2 0500000US01003 Baldwin County, Alabama            208107              NA 01003
-    ## 3 0500000US01005 Barbour County, Alabama             25782              NA 01005
-    ## 4 0500000US01007 Bibb County, Alabama                22527              NA 01007
-    ## 5 0500000US01009 Blount County, Alabama              57645              NA 01009
-    ## 6 0500000US01011 Bullock County, Alabama             10352              NA 01011
-    ## # … with abbreviated variable name ¹​`Margin of Error!!Total`
+    ##   id       `Geographic Area Name` `Estimate!!Total` Margin of Error!!Tot…¹ fips 
+    ##   <chr>    <chr>                              <dbl>                  <dbl> <chr>
+    ## 1 0500000… Autauga County, Alaba…             55200                     NA 01001
+    ## 2 0500000… Baldwin County, Alaba…            208107                     NA 01003
+    ## 3 0500000… Barbour County, Alaba…             25782                     NA 01005
+    ## 4 0500000… Bibb County, Alabama               22527                     NA 01007
+    ## 5 0500000… Blount County, Alabama             57645                     NA 01009
+    ## 6 0500000… Bullock County, Alaba…             10352                     NA 01011
+    ## # ℹ abbreviated name: ¹​`Margin of Error!!Total`
 
 Use the following test to check your answer.
 
@@ -359,8 +359,8 @@ data.
 ## TASK: Normalize cases and deaths
 df_normalized <-
   df_data %>% 
-  mutate(cases_per100k = cases/population) %>% 
-  mutate(deaths_per100k = deaths/population)
+  mutate(cases_per100k = cases/population * 100000) %>% 
+  mutate(deaths_per100k = deaths/population * 100000)
 ```
 
 You may use the following test to check your work.
@@ -389,7 +389,7 @@ assertthat::assert_that(
                  str_detect(county, "Snohomish"),
                  date == "2020-01-21"
                ) %>%
-              pull(cases_per100k) - 0.127e-6) < 1e-3 # I think this number was missing scientific notation. I took a long look at it and just editted the assert. :)
+              pull(cases_per100k) - 0.127) < 1e-3
             )
 ```
 
@@ -425,11 +425,17 @@ Before turning you loose, let’s complete a couple guided EDA tasks.
 ``` r
 ## TASK: Compute mean and sd for cases_per100k and deaths_per100k
 df_normalized %>% 
-  summarise(mean_cases_per100k = mean(cases_per100k), sd_cases_per100k = sd(cases_per100k), mean_deaths_per100k = mean(deaths_per100k, na.rm = TRUE), sd_deaths_per100k = sd(deaths_per100k, na.rm = TRUE))
+  filter(state == "California") %>% 
+  summarise(
+    mean_cases_per100k = mean(cases_per100k), 
+    sd_cases_per100k = sd(cases_per100k), 
+    mean_deaths_per100k = mean(deaths_per100k, na.rm = TRUE), 
+    sd_deaths_per100k = sd(deaths_per100k, na.rm = TRUE)
+  )
 ```
 
     ##   mean_cases_per100k sd_cases_per100k mean_deaths_per100k sd_deaths_per100k
-    ## 1         0.09974675       0.08448659         0.001743095       0.001589641
+    ## 1           8038.086          7446.57            88.75351          87.51272
 
 ### **q7** Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of `deaths_per100k`. Report the population of each county along with the per-100,000 counts. Compare the counts against the mean values you found in q6. Note any observations.
 
@@ -438,14 +444,14 @@ df_normalized %>%
 df_top10_cases <- 
   df_normalized %>% 
   group_by(county) %>% 
-  summarise(across(c(cases_per100k, population), mean)) %>% 
+  summarise(across(c(cases_per100k, population), max)) %>% 
   arrange(desc(cases_per100k)) %>% 
   slice(0:10)
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
 df_top10_deaths <- 
   df_normalized %>% 
   group_by(county) %>% 
-  summarise(across(c(deaths_per100k, population), mean)) %>% 
+  summarise(across(c(deaths_per100k, population), max)) %>% 
   arrange(desc(deaths_per100k)) %>% 
   slice(0:10)
 
@@ -453,42 +459,42 @@ df_top10_cases
 ```
 
     ## # A tibble: 10 × 3
-    ##    county               cases_per100k population
-    ##    <chr>                        <dbl>      <dbl>
-    ##  1 Loving                       0.382        102
-    ##  2 Chattahoochee                0.339      10767
-    ##  3 Crowley                      0.290       5630
-    ##  4 Trousdale                    0.259       9573
-    ##  5 Bent                         0.214       5809
-    ##  6 Dimmit                       0.213      10663
-    ##  7 Bethel Census Area           0.212      18040
-    ##  8 Norton                       0.203       5486
-    ##  9 Kusilvak Census Area         0.192       8198
-    ## 10 Buena Vista                  0.188      20260
+    ##    county                   cases_per100k population
+    ##    <chr>                            <dbl>      <dbl>
+    ##  1 Loving                         192157.        102
+    ##  2 Chattahoochee                   69527.      10767
+    ##  3 Nome Census Area                62922.       9925
+    ##  4 Northwest Arctic Borough        62542.       7734
+    ##  5 Crowley                         59449.       5630
+    ##  6 Bethel Census Area              57439.      18040
+    ##  7 Dewey                           54317.       5779
+    ##  8 Dimmit                          54019.      10663
+    ##  9 Jim Hogg                        50133.       5282
+    ## 10 Kusilvak Census Area            49817.       8198
 
 ``` r
 df_top10_deaths
 ```
 
     ## # A tibble: 10 × 3
-    ##    county         deaths_per100k population
-    ##    <chr>                   <dbl>      <dbl>
-    ##  1 McMullen              0.00729        662
-    ##  2 Galax city            0.00666       6638
-    ##  3 Emporia city          0.00633       5381
-    ##  4 Jerauld               0.00631       2029
-    ##  5 Gove                  0.00595       2619
-    ##  6 Gregory               0.00558       4201
-    ##  7 Dickey                0.00535       4970
-    ##  8 Foard                 0.00527       1408
-    ##  9 McKinley              0.00527      72849
-    ## 10 East Feliciana        0.00523      19499
+    ##    county            deaths_per100k population
+    ##    <chr>                      <dbl>      <dbl>
+    ##  1 McMullen                   1360.        662
+    ##  2 Galax city                 1175.       6638
+    ##  3 Motley                     1125.       1156
+    ##  4 Hancock                    1054.      75690
+    ##  5 Emporia city               1022.       5381
+    ##  6 Towns                      1016.      11417
+    ##  7 Jerauld                     986.       2029
+    ##  8 Loving                      980.        102
+    ##  9 Robertson                   980.      69344
+    ## 10 Martinsville city           946.      13101
 
 **Observations**:
 
 - Loving looks like it has more cases than people
-- All of these places have small population sizes (less than 25,000)
-  except McKinley.
+- All of these places have small population sizes (less than 15000)
+  except Robertson, Hancock and Towns.
 - All of these are over the mean value, which makes sense
 - All of these are more than one sd from the mean
 
@@ -537,6 +543,9 @@ df_normalized %>%
 
     ## Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
     ## of ggplot2 3.3.4.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
 
 ![](c06-covid19-assignment_files/figure-gfm/q8-task-1.png)<!-- -->
 
@@ -548,6 +557,21 @@ df_top_5_cases <-
   arrange(desc(cases)) %>% 
   slice(0:5)
 
+df_normalized %>% 
+  group_by(county, state) %>% 
+  summarise(cases = mean(cases_per100k), population = mean(population)) %>% 
+  ggplot(aes(cases, population)) +
+  geom_point(aes(color = state)) +
+  dark_theme_minimal() +
+  guides(color = FALSE)
+```
+
+    ## `summarise()` has grouped output by 'county'. You can override using the
+    ## `.groups` argument.
+
+![](c06-covid19-assignment_files/figure-gfm/q8-task-2-1.png)<!-- -->
+
+``` r
 df_normalized %>% 
   group_by(county, state) %>% 
   summarise(across(c(cases, population), mean)) %>% 
@@ -569,7 +593,7 @@ df_normalized %>%
     ## `.groups` argument.
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](c06-covid19-assignment_files/figure-gfm/q8-task-2-1.png)<!-- -->
+![](c06-covid19-assignment_files/figure-gfm/q8-task-2-2.png)<!-- -->
 
 ``` r
 cor(df_normalized$cases, df_normalized$population)
@@ -594,6 +618,9 @@ df_normalized %>%
 
     ## Warning: `label_number_si()` was deprecated in scales 1.2.0.
     ## ℹ Please use the `scale_cut` argument of `label_number()` instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
 
 ![](c06-covid19-assignment_files/figure-gfm/q8-task-3-1.png)<!-- -->
 
@@ -628,33 +655,20 @@ df_lowest10_cases
     ## # A tibble: 10 × 3
     ##    county        cases_per100k population
     ##    <chr>                 <dbl>      <dbl>
-    ##  1 Kalawao              0.0133         75
-    ##  2 Guanica              0.0272      16783
-    ##  3 Fairfax city         0.0282      23865
-    ##  4 Storey               0.0294       3941
-    ##  5 Vieques              0.0297       8771
-    ##  6 Maricao              0.0309       6202
-    ##  7 Sabana Grande        0.0319      23054
-    ##  8 Kauai                0.0322      71377
-    ##  9 Arroyo               0.0329      18111
-    ## 10 Lajas                0.0335      23315
+    ##  1 Kalawao               1333.         75
+    ##  2 Guanica               2723.      16783
+    ##  3 Fairfax city          2819.      23865
+    ##  4 Storey                2943.       3941
+    ##  5 Vieques               2974.       8771
+    ##  6 Maricao               3087.       6202
+    ##  7 Sabana Grande         3190.      23054
+    ##  8 Kauai                 3223.      71377
+    ##  9 Arroyo                3292.      18111
+    ## 10 Lajas                 3348.      23315
 
 ### Observations
 
-- Population is correlated to number of cases.
-
-- This makes sense because smaller communities probably have more
-  interaction and there are less smaller pods of people who can isolate
-  from each other (modsim memories).
-
-- This is also proven by the counties with the highest cases per capita
-  all having smaller population sized (the top 5 have populations of
-  around 1000 or less).
-
-- This is also true in terms of counties with low cases. If communities
-  can successfully prevent an infected person from entering, they can
-  keep case numbers low. This is easier to do with smaller counties
-  because there are less people interacting with people on the outside.
+- Normalized population is correlated to number of cases.
 
 - A notable exception to what was just stated is Kauai county. It is
   relatively large and has very low case per capita numbers. The
@@ -662,8 +676,9 @@ df_lowest10_cases
   counties in terms of cases per capita list of note include Kalawao
   (Hawii) and Guanica, Maricao, Sabana Grande, Lajas, and Vieques
   counties. (all in Puerto Rico). All of the counties are on islands. It
-  makes sense that their case numbers were low because of how effectivly
-  they were able to restrict travel during the height of the pandemic.
+  makes sense that their case numbers were low because of how
+  effectively they were able to restrict travel during the height of the
+  pandemic.
 
 - Loving county in Texas has reported more cases than there are people
   🤔. If makes me think that some county clerk read a number wrong from
