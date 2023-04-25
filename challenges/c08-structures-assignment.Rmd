@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category    | Needs Improvement                                                                                                | Satisfactory                                                                                                               |
-|------------------|--------------------------|-----------------------------|
+|-----------------|--------------------------|-----------------------------|
 | Effort      | Some task **q**'s left unattempted                                                                               | All task **q**'s attempted                                                                                                 |
 | Observed    | Did not document observations, or observations incorrect                                                         | Documented correct observations based on analysis                                                                          |
 | Supported   | Some observations not clearly supported by analysis                                                              | All observations clearly supported by analysis (table, graph, etc.)                                                        |
@@ -213,9 +213,9 @@ df_norm_pof
 ```
 
 -   Assuming your scopus is the probability of failure `POF` defined above, does your estimate exhibit real variability, induced variability, or both?
-    -   We generated the curve so there is real variability and no induced variability. There is nothing wrong with our measurement technique.
+    -   There is no real variability and no induced variability. In order for there to be real variability in the POF, the underlying distribution would need to be changing. There is nothing wrong with our measurement technique.
 -   Does this confidence interval imply that `POF < 0.03`?
-    -   Yes. 0.03 is well within the range of confidence.
+    -   Yes. A POF value that is less than 0.03 is well within the range of confidence.
 -   Compare this probability with your estimate from q2; is it more or less trustworthy?
     -   This is more trustworthy because we have more samples.
 -   Does the confidence interval above account for uncertainty arising from the *Monte Carlo approximation*? Why or why not?
@@ -225,7 +225,7 @@ df_norm_pof
 -   What could you do to tighten up the confidence interval?
     -   You could use more samples, use a better distribution, use a more precise estimator, or use a better structural response model.
 -   Can you *confidently* conclude that `POF < 0.03`? Why or why not?
-    -   No. You cannot conclude that POF \< 0.03 because it doesn't fall in the confidence interval. This means the probability could be greater than 0.03.
+    -   No. You cannot conclude that POF \< 0.03 because even thought the CI suggests this to be the case, we have a limited number of physical tests.
 
 ## A different way to compute the POF
 
@@ -280,7 +280,7 @@ df_samples %>% estimate_pof()
 -   Does this estimate have any uncertainty due to *Monte Carlo approximation*? Why or why not?
     -   There is no uncertainty due to Monte Carlo approximations because we don't use it for this estimate.
 -   With the scopus as the `POF`, would uncertainty due to *Monte Carlo approximation* be induced or real?
-    -   If Monte Carlo was used. The uncertainty would be real, but not induced.
+    -   If Monte Carlo was used there is no real variability and no induced variability. In order for there to be real variability in the POF, the underlying distribution would need to be changing.
 -   Does this estimate have any uncertainty due to *limited physical tests*? Why or why not?
     -   Yes. A larger sample size would have made the results more accurate.
 -   With the scopus as the `POF`, would uncertainty due to *limited physical tests* be induced or real?
@@ -314,6 +314,6 @@ df_samples %>%
 -   Does the confidence interval above account for uncertainty arising from *Monte Carlo approximation* of the POF? Why or why not?
     -   No. The confidence interval from the bootstrap estimate does not account for the uncertainty from the Monte Carlo approximation. There is no Monte Carlo in this simulation.
 -   Does the confidence interval above account for uncertainty arising from *limited physical tests* (`df_samples`)? Why or why not?
-    -   No. The bootstrap estimate accounts for uncertainty due to sampling variability, but it does not account for the variability that arises from a limited number of tests conducted in the original data set.
+    -   Yes. Bootstrap quantifies uncertainty from a limited sample (the number of physical tests).
 -   Can you confidently conclude that `POF < 0.03`? Why or why not?
     -   No. There is enough uncertainty from limited sample sizes and their variability that we can not confidently conclude this.

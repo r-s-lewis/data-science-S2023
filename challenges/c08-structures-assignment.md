@@ -91,7 +91,7 @@ library(tidyverse)
 
     ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
     ## ✔ ggplot2 3.4.0     ✔ purrr   1.0.1
-    ## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+    ## ✔ tibble  3.2.1     ✔ dplyr   1.1.0
     ## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
     ## ✔ readr   2.1.3     ✔ forcats 1.0.0
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -157,7 +157,7 @@ df_samples
     ##  8   39674.
     ##  9   40144.
     ## 10   39865.
-    ## # … with 15 more rows
+    ## # ℹ 15 more rows
 
 Data Dictionary:
 
@@ -325,8 +325,8 @@ df_norm_sim <-
 
     ## Rows: 10,000
     ## Columns: 2
-    ## $ strength <dbl> 40247.91, 40238.43, 40084.31, 40248.39, 40207.66, 40183.57, 3…
-    ## $ g        <dbl> 1032.2225, 1022.7451, 868.6224, 1032.7085, 991.9718, 967.8809…
+    ## $ strength <dbl> 40027.10, 39708.29, 40466.93, 40310.16, 39972.28, 40206.85, 4…
+    ## $ g        <dbl> 811.4182, 492.6043, 1251.2447, 1094.4751, 756.5985, 991.1648,…
 
 ``` r
 ## NOTE: The following code estimates the POF and a 95% confidence interval
@@ -349,15 +349,18 @@ df_norm_pof
     ## # A tibble: 1 × 3
     ##   pof_lo pof_est pof_hi
     ##    <dbl>   <dbl>  <dbl>
-    ## 1 0.0160  0.0187 0.0214
+    ## 1 0.0161  0.0188 0.0215
 
 - Assuming your scopus is the probability of failure `POF` defined
   above, does your estimate exhibit real variability, induced
   variability, or both?
-  - We generated the curve so there is real variability and no induced
-    variability. There is nothing wrong with our measurement technique.
+  - There is no real variability and no induced variability. In order
+    for there to be real variability in the POF, the underlying
+    distribution would need to be changing. There is nothing wrong with
+    our measurement technique.
 - Does this confidence interval imply that `POF < 0.03`?
-  - Yes. 0.03 is well within the range of confidence.
+  - Yes. A POF value that is less than 0.03 is well within the range of
+    confidence.
 - Compare this probability with your estimate from q2; is it more or
   less trustworthy?
   - This is more trustworthy because we have more samples.
@@ -374,9 +377,9 @@ df_norm_pof
   - You could use more samples, use a better distribution, use a more
     precise estimator, or use a better structural response model.
 - Can you *confidently* conclude that `POF < 0.03`? Why or why not?
-  - No. You cannot conclude that POF \< 0.03 because it doesn’t fall in
-    the confidence interval. This means the probability could be greater
-    than 0.03.
+  - No. You cannot conclude that POF \< 0.03 because even thought the CI
+    suggests this to be the case, we have a limited number of physical
+    tests.
 
 ## A different way to compute the POF
 
@@ -446,8 +449,9 @@ df_samples %>% estimate_pof()
     don’t use it for this estimate.
 - With the scopus as the `POF`, would uncertainty due to *Monte Carlo
   approximation* be induced or real?
-  - If Monte Carlo was used. The uncertainty would be real, but not
-    induced.
+  - If Monte Carlo was used there is no real variability and no induced
+    variability. In order for there to be real variability in the POF,
+    the underlying distribution would need to be changing.
 - Does this estimate have any uncertainty due to *limited physical
   tests*? Why or why not?
   - Yes. A larger sample size would have made the results more accurate.
@@ -487,7 +491,7 @@ df_samples %>%
     ## # A tibble: 1 × 6
     ##   term   .lower .estimate .upper .alpha .method   
     ##   <chr>   <dbl>     <dbl>  <dbl>  <dbl> <chr>     
-    ## 1 pof   0.00127    0.0179 0.0503   0.05 percentile
+    ## 1 pof   0.00113    0.0178 0.0477   0.05 percentile
 
 **Observations**:
 
@@ -498,9 +502,8 @@ df_samples %>%
     There is no Monte Carlo in this simulation.
 - Does the confidence interval above account for uncertainty arising
   from *limited physical tests* (`df_samples`)? Why or why not?
-  - No. The bootstrap estimate accounts for uncertainty due to sampling
-    variability, but it does not account for the variability that arises
-    from a limited number of tests conducted in the original data set.
+  - Yes. Bootstrap quantifies uncertainty from a limited sample (the
+    number of physical tests).
 - Can you confidently conclude that `POF < 0.03`? Why or why not?
   - No. There is enough uncertainty from limited sample sizes and their
     variability that we can not confidently conclude this.
