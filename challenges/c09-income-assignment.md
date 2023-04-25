@@ -90,7 +90,7 @@ library(tidyverse)
 
     ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
     ## ✔ ggplot2 3.4.0     ✔ purrr   1.0.1
-    ## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+    ## ✔ tibble  3.2.1     ✔ dplyr   1.1.0
     ## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
     ## ✔ readr   2.1.3     ✔ forcats 1.0.0
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -133,21 +133,22 @@ df_pop
 ```
 
     ## # A tibble: 3,220 × 7
-    ##    Geography      `Geographic Area Name`   popul…¹ Annot…² Margi…³ Annot…⁴ ...7 
-    ##    <chr>          <chr>                      <dbl> <chr>   <chr>   <chr>   <lgl>
-    ##  1 0500000US01001 Autauga County, Alabama    55200 null    *****   *****   NA   
-    ##  2 0500000US01003 Baldwin County, Alabama   208107 null    *****   *****   NA   
-    ##  3 0500000US01005 Barbour County, Alabama    25782 null    *****   *****   NA   
-    ##  4 0500000US01007 Bibb County, Alabama       22527 null    *****   *****   NA   
-    ##  5 0500000US01009 Blount County, Alabama     57645 null    *****   *****   NA   
-    ##  6 0500000US01011 Bullock County, Alabama    10352 null    *****   *****   NA   
-    ##  7 0500000US01013 Butler County, Alabama     20025 null    *****   *****   NA   
-    ##  8 0500000US01015 Calhoun County, Alabama   115098 null    *****   *****   NA   
-    ##  9 0500000US01017 Chambers County, Alabama   33826 null    *****   *****   NA   
-    ## 10 0500000US01019 Cherokee County, Alabama   25853 null    *****   *****   NA   
-    ## # … with 3,210 more rows, and abbreviated variable names ¹​population_estimate,
-    ## #   ²​`Annotation of Estimate!!Total`, ³​`Margin of Error!!Total`,
-    ## #   ⁴​`Annotation of Margin of Error!!Total`
+    ##    Geography   `Geographic Area Name` population_estimate Annotation of Estima…¹
+    ##    <chr>       <chr>                                <dbl> <chr>                 
+    ##  1 0500000US0… Autauga County, Alaba…               55200 null                  
+    ##  2 0500000US0… Baldwin County, Alaba…              208107 null                  
+    ##  3 0500000US0… Barbour County, Alaba…               25782 null                  
+    ##  4 0500000US0… Bibb County, Alabama                 22527 null                  
+    ##  5 0500000US0… Blount County, Alabama               57645 null                  
+    ##  6 0500000US0… Bullock County, Alaba…               10352 null                  
+    ##  7 0500000US0… Butler County, Alabama               20025 null                  
+    ##  8 0500000US0… Calhoun County, Alaba…              115098 null                  
+    ##  9 0500000US0… Chambers County, Alab…               33826 null                  
+    ## 10 0500000US0… Cherokee County, Alab…               25853 null                  
+    ## # ℹ 3,210 more rows
+    ## # ℹ abbreviated name: ¹​`Annotation of Estimate!!Total`
+    ## # ℹ 3 more variables: `Margin of Error!!Total` <chr>,
+    ## #   `Annotation of Margin of Error!!Total` <chr>, ...7 <lgl>
 
 You might wonder why the `Margin of Error` in the population estimates
 is listed as `*****`. From the [documentation (PDF
@@ -201,25 +202,25 @@ df_income
 ```
 
     ## # A tibble: 3,220 × 483
-    ##    Geography     Geogr…¹ Estim…² Margi…³ Annot…⁴ Annot…⁵ Estim…⁶ Margi…⁷ Annot…⁸
-    ##    <chr>         <chr>     <dbl>   <dbl> <chr>   <chr>     <dbl>   <dbl> <chr>  
-    ##  1 0500000US010… Autaug…   21115     383 null    null      16585     363 null   
-    ##  2 0500000US010… Baldwi…   78622    1183 null    null      69544    1042 null   
-    ##  3 0500000US010… Barbou…    9186     280 null    null       4729     211 null   
-    ##  4 0500000US010… Bibb C…    6840     321 null    null       5588     346 null   
-    ##  5 0500000US010… Blount…   20600     396 null    null      20054     417 null   
-    ##  6 0500000US010… Bulloc…    3609     196 null    null        881     119 null   
-    ##  7 0500000US010… Butler…    6708     274 null    null       3821     173 null   
-    ##  8 0500000US010… Calhou…   45033     683 null    null      33820     559 null   
-    ##  9 0500000US010… Chambe…   13516     372 null    null       7953     296 null   
-    ## 10 0500000US010… Cherok…   10606     370 null    null       9953     356 null   
-    ## # … with 3,210 more rows, 474 more variables:
-    ## #   `Annotation of Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!White` <chr>,
-    ## #   `Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!Black or African American` <dbl>,
-    ## #   `Annotation of Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!Black or African American` <chr>,
-    ## #   `Margin of Error!!Number MOE!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!Black or African American` <dbl>,
-    ## #   `Annotation of Margin of Error!!Number MOE!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!Black or African American` <chr>,
-    ## #   `Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households!!One race--!!American Indian and Alaska Native` <dbl>, …
+    ##    Geography      `Geographic Area Name`   Estimate!!Number!!HOUSEHOLD INCOME …¹
+    ##    <chr>          <chr>                                                    <dbl>
+    ##  1 0500000US01001 Autauga County, Alabama                                  21115
+    ##  2 0500000US01003 Baldwin County, Alabama                                  78622
+    ##  3 0500000US01005 Barbour County, Alabama                                   9186
+    ##  4 0500000US01007 Bibb County, Alabama                                      6840
+    ##  5 0500000US01009 Blount County, Alabama                                   20600
+    ##  6 0500000US01011 Bullock County, Alabama                                   3609
+    ##  7 0500000US01013 Butler County, Alabama                                    6708
+    ##  8 0500000US01015 Calhoun County, Alabama                                  45033
+    ##  9 0500000US01017 Chambers County, Alabama                                 13516
+    ## 10 0500000US01019 Cherokee County, Alabama                                 10606
+    ## # ℹ 3,210 more rows
+    ## # ℹ abbreviated name:
+    ## #   ¹​`Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households`
+    ## # ℹ 480 more variables:
+    ## #   `Margin of Error!!Number MOE!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households` <dbl>,
+    ## #   `Annotation of Margin of Error!!Number MOE!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households` <chr>,
+    ## #   `Annotation of Estimate!!Number!!HOUSEHOLD INCOME BY RACE AND HISPANIC OR LATINO ORIGIN OF HOUSEHOLDER!!Households` <chr>, …
 
 Use the following test to check that you downloaded the correct file:
 
@@ -279,7 +280,7 @@ df_q3 <-
     ## ℹ In argument: `across(contains("median"), as.numeric)`.
     ## Caused by warning:
     ## ! NAs introduced by coercion
-    ## ℹ Run ]8;;ide:run:dplyr::last_dplyr_warnings()dplyr::last_dplyr_warnings()]8;; to see the 7 remaining warnings.
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 7 remaining warnings.
 
     ## Rows: 16,100
     ## Columns: 5
@@ -470,7 +471,7 @@ df_data %>%
 - Document your observations here.
   - Counties with a lot of income inequality tend to have inequality in
     all family categories.
-  - The average income in a county seems unrelated to the inequality.
+  - The median income in a county seems unrelated to the inequality.
   - The median income seems to be correlated to the family categories.
   - It looks like often, the 2 person category is quite far behind the
     other categories.
@@ -526,9 +527,10 @@ cor(corr_data$population_estimate, corr_data$income_SE)
   this trend exist?
   - It looks like a slight downwards trend (negative correlation). A
     larger sample size should decrease the standard error. Larger
-    populations are larger samples sizes. It is worth noting that with a
-    correlation value of only -0.1766868, the negative correlation is
-    pretty weak.
+    populations lead to larger samples sizes, when the census bureau
+    collects a sample that is proportional to the target population. It
+    is worth noting that with a correlation value of only -0.1766868,
+    the negative correlation is pretty weak.
 - What does this *overall* trend tell you about the relative ease of
   studying small vs large counties?
   - Studying larger counties is likely easier given that you have a

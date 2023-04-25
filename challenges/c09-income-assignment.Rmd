@@ -245,7 +245,7 @@ df_data %>%
 
 -   Document your observations here.
     -   Counties with a lot of income inequality tend to have inequality in all family categories.
-    -   The average income in a county seems unrelated to the inequality.
+    -   The median income in a county seems unrelated to the inequality.
     -   The median income seems to be correlated to the family categories.
     -   It looks like often, the 2 person category is quite far behind the other categories.
 -   Can you confidently distinguish between household incomes in Suffolk county? Why or why not?
@@ -275,7 +275,7 @@ cor(corr_data$population_estimate, corr_data$income_SE)
 **Observations**:
 
 -   What *overall* trend do you see between `SE` and population? Why might this trend exist?
-    -   It looks like a slight downwards trend (negative correlation). A larger sample size should decrease the standard error. Larger populations are larger samples sizes. It is worth noting that with a correlation value of only -0.1766868, the negative correlation is pretty weak.
+    -   It looks like a slight downwards trend (negative correlation). A larger sample size should decrease the standard error. Larger populations lead to larger samples sizes, when the census bureau collects a sample that is proportional to the target population. It is worth noting that with a correlation value of only -0.1766868, the negative correlation is pretty weak.
 -   What does this *overall* trend tell you about the relative ease of studying small vs large counties?
     -   Studying larger counties is likely easier given that you have a larger sample size to pull from. This will reduce your error.
 
