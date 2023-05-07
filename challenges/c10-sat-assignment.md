@@ -199,7 +199,11 @@ df_sat %>%
   - We don’t know the dates the data was collected on
 - Based on these missing variables, what possible effects could be
   present in the data that we would have *no way of detecting*?
-  - 
+  - Difficulty of course load
+
+  - Test taking skills
+
+  - Non graded activities
 
 # Analysis with Hypothesis Testing
 
@@ -311,9 +315,9 @@ df_composite %>%
 - To what extent does `both_SAT` look like a normal distribution?
   - Not very
 - To what extent does `high_GPA` look like a normal distribution?
-  - Somewhat
+  - Not very
 - To what extent does `univ_GPA` look like a normal distribution?
-  - Maybe if you removed outliers
+  - Not very
 
 Keep in mind your findings as you complete q4.
 
@@ -338,6 +342,40 @@ ggcorrplot(corr, hc.order = TRUE,
 ```
 
 ![](c10-sat-assignment_files/figure-gfm/q4-task-1.png)<!-- -->
+
+``` r
+cor_test_result_1 <- cor.test(df_composite$high_GPA, df_composite$univ_GPA, method = "pearson")
+cor_test_result_1
+```
+
+    ## 
+    ##  Pearson's product-moment correlation
+    ## 
+    ## data:  df_composite$high_GPA and df_composite$univ_GPA
+    ## t = 12.632, df = 103, p-value < 2.2e-16
+    ## alternative hypothesis: true correlation is not equal to 0
+    ## 95 percent confidence interval:
+    ##  0.6911690 0.8449761
+    ## sample estimates:
+    ##       cor 
+    ## 0.7795631
+
+``` r
+cor_test_result_2 <- cor.test(df_composite$both_SAT, df_composite$univ_GPA, method = "pearson")
+cor_test_result_2
+```
+
+    ## 
+    ##  Pearson's product-moment correlation
+    ## 
+    ## data:  df_composite$both_SAT and df_composite$univ_GPA
+    ## t = 9.5339, df = 103, p-value = 8.052e-16
+    ## alternative hypothesis: true correlation is not equal to 0
+    ## 95 percent confidence interval:
+    ##  0.5674824 0.7746821
+    ## sample estimates:
+    ##       cor 
+    ## 0.6846776
 
 **Observations**:
 
@@ -394,9 +432,15 @@ df_composite %>%
 **Observations**:
 
 - How does your estimate from q5 compare with your estimate from q4?
-  - (Your response here)
+  - My estimate from q5 is 0.829909 and my estimate from q4 is
+    0.7795631. They are pretty similar, but the one from q5 shows more
+    correlation.
 - How does your CI from q5 compare with your CI from q4?
-  - (Your response here)
+  - My confidence interval from q5 is 0.7404223 to 0.8901223 and my
+    confidence interval from q4 is 0.6911690 to 0.8449761. Both of them
+    exclude the value 0, indicating that there is a statistically
+    significant correlation. The range for q4 is slightly wider, but
+    they are very close.
 
 *Aside*: When you use two different approximations to compute the same
 quantity and get similar results, that’s an *encouraging sign*. Such an
@@ -456,6 +500,7 @@ tools rather than do it by hand.
 ### **q6** Fit a linear model predicting `univ_GPA` with the predictor `both_SAT`. Assess the model to determine how effective a predictor `both_SAT` is for `univ_GPA`. Interpret the resulting confidence interval for the coefficient on `both_SAT`.
 
 ``` r
+library(modelr)
 ## TODO: Fit a model of univ_GPA on the predictor both_SAT
 fit_basic <- lm(univ_GPA ~ both_SAT, data = df_train)
 ## NOTE: The following computes confidence intervals on regression coefficients
@@ -472,15 +517,21 @@ fit_basic %>%
     ## 1 (Intercept)  0.0260   0.396       0.0655 9.48e- 1 -1.02      1.07   
     ## 2 both_SAT     0.00257  0.000322    7.97   1.08e-11  0.00172   0.00342
 
+``` r
+rsq_q6 <- modelr::rsquare(fit_basic, data = df_train)
+rsq_q6
+```
+
+    ## [1] 0.4487683
+
 **Observations**:
 
 - What is the confidence interval on the coefficient of `both_SAT`? Is
   this coefficient significantly different from zero?
   - The confidence interval is pretty close to zero.
 - By itself, how well does `both_SAT` predict `univ_GPA`?
-  - The p value being less than 0.05 and the estimate being positive
-    indicate that there is a statistically significant positive
-    correlation.
+  - The r^2 value being less than 0.4487683 indicates that there is a
+    moderate fit.
 
 Remember from `e-model03-interp-warnings` that there are challenges with
 interpreting regression coefficients! Let’s investigate that idea
@@ -506,6 +557,13 @@ fit_basic %>%
     ## 2 high_GPA    0.570     0.103         5.55 0.000000396  0.299      0.842  
     ## 3 both_SAT    0.000534  0.000457      1.17 0.247       -0.000674   0.00174
 
+``` r
+rsq_q7 <- modelr::rsquare(fit_basic, data = df_train)
+rsq_q7
+```
+
+    ## [1] 0.6061053
+
 **Observations**:
 
 - How well do these models perform, compared to the one you built in q6?
@@ -516,7 +574,8 @@ fit_basic %>%
   - Its -0.0006740696 to 0.001741962 which is not significantly
     different from zero.
 - How do the hypothesis test results compare with the results in q6?
-  - The estimate for high_GPA is larger than the both_SAT estimate.
+  - The r^2 value from q6 was 0.4487683 and the value from q7 was
+    0.6061053. The higher value in q7 indicates a better fit.
 
 ## Synthesize
 
