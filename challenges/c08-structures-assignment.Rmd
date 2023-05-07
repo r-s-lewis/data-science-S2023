@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category    | Needs Improvement                                                                                                | Satisfactory                                                                                                               |
-|-----------------|--------------------------|-----------------------------|
+|------------------|--------------------------|-----------------------------|
 | Effort      | Some task **q**'s left unattempted                                                                               | All task **q**'s attempted                                                                                                 |
 | Observed    | Did not document observations, or observations incorrect                                                         | Documented correct observations based on analysis                                                                          |
 | Supported   | Some observations not clearly supported by analysis                                                              | All observations clearly supported by analysis (table, graph, etc.)                                                        |
@@ -213,7 +213,7 @@ df_norm_pof
 ```
 
 -   Assuming your scopus is the probability of failure `POF` defined above, does your estimate exhibit real variability, induced variability, or both?
-    -   There is no real variability and no induced variability. In order for there to be real variability in the POF, the underlying distribution would need to be changing. There is nothing wrong with our measurement technique.
+    -   There is no real variability. In order for there to be real variability in the POF, the underlying distribution would need to be changing. There is nothing wrong with our measurement technique. There is however limited data. This leads to induced variability in our estimated POF.
 -   Does this confidence interval imply that `POF < 0.03`?
     -   Yes. A POF value that is less than 0.03 is well within the range of confidence.
 -   Compare this probability with your estimate from q2; is it more or less trustworthy?

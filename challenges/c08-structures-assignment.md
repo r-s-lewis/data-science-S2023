@@ -325,8 +325,8 @@ df_norm_sim <-
 
     ## Rows: 10,000
     ## Columns: 2
-    ## $ strength <dbl> 40027.10, 39708.29, 40466.93, 40310.16, 39972.28, 40206.85, 4…
-    ## $ g        <dbl> 811.4182, 492.6043, 1251.2447, 1094.4751, 756.5985, 991.1648,…
+    ## $ strength <dbl> 40515.33, 40162.48, 39417.40, 40178.02, 40297.89, 40257.57, 4…
+    ## $ g        <dbl> 1299.6440, 946.7925, 201.7103, 962.3365, 1082.2039, 1041.8842…
 
 ``` r
 ## NOTE: The following code estimates the POF and a 95% confidence interval
@@ -349,15 +349,16 @@ df_norm_pof
     ## # A tibble: 1 × 3
     ##   pof_lo pof_est pof_hi
     ##    <dbl>   <dbl>  <dbl>
-    ## 1 0.0161  0.0188 0.0215
+    ## 1 0.0162  0.0189 0.0216
 
 - Assuming your scopus is the probability of failure `POF` defined
   above, does your estimate exhibit real variability, induced
   variability, or both?
-  - There is no real variability and no induced variability. In order
-    for there to be real variability in the POF, the underlying
-    distribution would need to be changing. There is nothing wrong with
-    our measurement technique.
+  - There is no real variability. In order for there to be real
+    variability in the POF, the underlying distribution would need to be
+    changing. There is nothing wrong with our measurement technique.
+    There is however limited data. This leads to induced variability in
+    our estimated POF.
 - Does this confidence interval imply that `POF < 0.03`?
   - Yes. A POF value that is less than 0.03 is well within the range of
     confidence.
@@ -491,7 +492,7 @@ df_samples %>%
     ## # A tibble: 1 × 6
     ##   term   .lower .estimate .upper .alpha .method   
     ##   <chr>   <dbl>     <dbl>  <dbl>  <dbl> <chr>     
-    ## 1 pof   0.00113    0.0178 0.0477   0.05 percentile
+    ## 1 pof   0.00134    0.0178 0.0484   0.05 percentile
 
 **Observations**:
 
